@@ -12,7 +12,7 @@ class CircleFinder():
 		circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
                             param1=60,param2=30,minRadius=5,maxRadius=300)
 		if circles is None:
-			return ()
+			return None
 		circles = np.uint16(np.around(circles))
 		max_index = 0
 		for ii, i in enumerate(circles[0,:]):
