@@ -51,6 +51,7 @@ class StarFinder():
 
                 elif key == ord("n"):
                     pass
+                cv2.destroyAllWindows()
 
         else:
             while True:
@@ -68,15 +69,16 @@ class StarFinder():
                     break
 
     def find_star(self, search_point, scale):
+        r = 30  #  Half the side length of the search square
         print "find_star running"
         search_point = (int(search_point[0] / scale), int(search_point[1] / scale))
-        crop_img = self.image[search_point[1] - 30 : search_point[1] + 30, 
-                                search_point[0] - 30 : search_point[0] + 30]
+        crop_img = self.image[search_point[1] - r : search_point[1] + r, 
+                                search_point[0] - r : search_point[0] + r]
         #  from stackoverflow:
         #  NOTE: its img[y: y + h, x: x + w] and *not* img[x: x + w, y: y + h]
         x, y = cv2.minMaxLoc(crop_img)[3]
-        x = search_point[0] + x - 30
-        y = search_point[1] + y - 30
+        x = search_point[0] + x - r
+        y = search_point[1] + y - r
         print x, y
         return (x, y)
 
