@@ -31,7 +31,7 @@ class StarFinder():
         cv2.namedWindow("image")
         cv2.setMouseCallback("image", StarFinder.click_loc)
 
-        scale = 0.25
+        scale = 0.2
 
         if self.compare:
             for i in range(len(self.compare.star_locs)):
