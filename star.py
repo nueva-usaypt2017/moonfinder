@@ -19,8 +19,8 @@ class StarFinder():
         #  Starfinder instance to the new starfinder instance so 
         #  that the program can give the user instructions for which
         #  star to click.
-        self.star_locs = []
-        #  star_locs is a list of tuples showing star lengths. Format is (ID, x, y).
+        self.star_locs = {}
+        #  star_locs is a dict of IDs and tuples showing star locs. Format is (ID, x, y).
         #  ID val is for continuity between image searches.
 
     def display_n_find(self):
@@ -34,11 +34,11 @@ class StarFinder():
         scale = 0.2
 
         if self.compare:
-            for i in range(len(self.compare.star_locs)):
+            for ky in self.compare.star_locs.keys():
                 cv2.namedWindow("comparison")
                 im = cv2.resize(self.compare.image, (0, 0), fx=scale, fy=scale)
-                cv2.circle(im, (int(self.compare.star_locs[i][1] * scale),
-                                 int(self.compare.star_locs[i][2] * scale)), 20, (255, 0, 0), 2)
+                cv2.circle(im, (int(self.compare.star_locs[ky][0] * scale),
+                                 int(self.compare.star_locs[ky][1] * scale)), 20, (255, 0, 0), 2)
                 cv2.imshow("comparison", im)
                 cv2.imshow("image", cv2.resize(self.image, (0, 0), fx=scale, fy=scale))
 
@@ -47,7 +47,7 @@ class StarFinder():
                 if key == ord("y"):
                     true_loc = self.find_star(self.recent_xy, scale)
                     print "Point at " + str(true_loc) + " added."
-                    self.star_locs.append((self.compare.star_locs[i][0], true_loc[0], true_loc[1]))
+                    self.star_locs[ky] = (true_loc[0], true_loc[1])
 
                 elif key == ord("n"):
                     pass
@@ -63,7 +63,7 @@ class StarFinder():
                     print "Point at " + str(true_loc) + " added."
 #                    cv2.circle(self.image, (int(true_loc[0] * scale), int(true_loc[1] * scale)), 20, (255, 0, 0), 2)
 #                    cv2.imshow("image", self.image)
-                    self.star_locs.append((hash(time.time()) % 10 ** 8, true_loc[0], true_loc[1]))
+                    self.star_locs[hash(time.time()) % 10 ** 8] = (true_loc[0], true_loc[1])
 
                 elif key == ord("x"):
                     break
