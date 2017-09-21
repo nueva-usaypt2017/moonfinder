@@ -29,7 +29,6 @@ class StarFinder():
         print "If this is the first star image, enter x to close"
         time.sleep(0.25)
         cv2.namedWindow("image")
-        cv2.setMouseCallback("image", StarFinder.click_loc)
 
         scale = 0.2
 
@@ -41,6 +40,7 @@ class StarFinder():
                                  int(self.compare.star_locs[ky][1] * scale)), 20, (255, 0, 0), 2)
                 cv2.imshow("comparison", im)
                 cv2.imshow("image", cv2.resize(self.image, (0, 0), fx=scale, fy=scale))
+                cv2.setMouseCallback("image", StarFinder.click_loc)
 
                 key = cv2.waitKey(0) & 0xFF
 
@@ -54,6 +54,7 @@ class StarFinder():
                 cv2.destroyAllWindows()
 
         else:
+            cv2.setMouseCallback("image", StarFinder.click_loc)
             while True:
                 cv2.imshow("image", cv2.resize(self.image, (0, 0), fx=scale, fy=scale))
                 key = cv2.waitKey(0) & 0xFF
