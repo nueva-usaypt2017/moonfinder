@@ -4,11 +4,18 @@ import sys
 
 
 class CircleFinder():
-    def __init__(self, image_path):
-        self.image_path = image_path
+    def __init__(self, path):
+        if type(path) == str:
+            self.image_path = path
+        else:
+            self.image_path = None
+            self.img = path
 
     def get_center_coords(self):
-        img = cv2.imread(self.image_path, 0)
+        if self.image_path is None:
+            img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        else:
+            img = cv2.imread(self.image_path, 0)
         img = cv2.medianBlur(img, 5)
         circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
                                    param1=60, param2=30, minRadius=5,

@@ -9,9 +9,10 @@ class StarFinder():
     recent_xy = ()  # As far as I can tell, having a class variable is the only way to
     #  get the xy val for a click out of the event handler or whatever
 
-    def __init__(self, img_path, prev_starfinder=None):
+    def __init__(self, img_path, prev_starfinder=None, scale=None):
         self.image = cv2.imread(img_path, 0)
         self.compare = prev_starfinder
+        self.scale = scale
         if self.compare:
             self.compare.compare = None  # Not sure if this is necessary but it's probably best
         #  img_path is the image path to find stars in. The optional
@@ -30,19 +31,21 @@ class StarFinder():
         print "If this is the first star image, enter x to close"
         time.sleep(0.25)
         cv2.namedWindow("image")
-        cv2.setMouseCallback("image", StarFinder.click_loc)
 
-        scale = 0.2
+        scale = 0.3
+        if self.scale:
+            scale = self.scale
 
         if self.compare:
             for ky in self.compare.star_locs.keys():
                 cv2.namedWindow("comparison")
                 im = cv2.resize(self.compare.image, (0, 0), fx=scale, fy=scale)
                 cv2.circle(im, (int(self.compare.star_locs[ky][0] * scale),
-                                 int(self.compare.star_locs[ky][1] * scale)), 20, (255, 0, 0), 2)
+                                int(self.compare.star_locs[ky][1] * scale)), 20, (255, 0, 0), 2)
                 cv2.imshow("comparison", im)
                 cv2.imshow("image", cv2.resize(
                     self.image, (0, 0), fx=scale, fy=scale))
+                cv2.setMouseCallback("image", StarFinder.click_loc)
 
                 key = cv2.waitKey(0) & 0xFF
 
@@ -56,6 +59,7 @@ class StarFinder():
                 cv2.destroyAllWindows()
 
         else:
+            cv2.setMouseCallback("image", StarFinder.click_loc)
             while True:
                 cv2.imshow("image", cv2.resize(
                     self.image, (0, 0), fx=scale, fy=scale))
@@ -66,13 +70,14 @@ class StarFinder():
                     print "Point at " + str(true_loc) + " added."
 #                    cv2.circle(self.image, (int(true_loc[0] * scale), int(true_loc[1] * scale)), 20, (255, 0, 0), 2)
 #                    cv2.imshow("image", self.image)
-                    self.star_locs[hash(time.time()) % 10 ** 8] = (true_loc[0], true_loc[1])
+                    self.star_locs[hash(time.time()) %
+                                   10 ** 8] = (true_loc[0], true_loc[1])
 
                 elif key == ord("x"):
                     break
 
     def find_star(self, search_point, scale):
-        r = 30  # Half the side length of the search square
+        r = 10  # Half the side length of the search square
         print "find_star running"
         search_point = (
             int(search_point[0] / scale), int(search_point[1] / scale))

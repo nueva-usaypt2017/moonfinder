@@ -3,6 +3,7 @@ from star import StarFinder
 import cv2
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class StarDistance():
@@ -17,14 +18,15 @@ class StarDistance():
     def run(self):
         pts1 = np.float32(self.stars1.values())
         pts2 = np.float32(self.stars2.values())
-        print pts2
+        print pts2.shape
+        print pts1.shape
         M = cv2.getAffineTransform(pts1, pts2)
         rows, cols, ch = self.img1.shape
         dst = cv2.warpAffine(self.img1, M, (cols, rows))
-        plt.subplot(121), plt.imshow(img), plt.title('Input')
+        plt.subplot(121), plt.imshow(self.img2), plt.title('Input')
         plt.subplot(122), plt.imshow(dst), plt.title('Output')
         plt.show()
-        moonloc1 = CircleFinder(img1).get_center_coords()
+        moonloc1 = CircleFinder(self.img1).get_center_coords()
         moonloc2 = CircleFinder(dst).get_center_coords()
         return (moonloc1[0] - moonloc2[0], moonloc1[1] - moonloc2[1])
 
