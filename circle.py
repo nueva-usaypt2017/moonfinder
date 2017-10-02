@@ -27,7 +27,7 @@ class CircleFinder():
         for ii, i in enumerate(circles[0, :]):
             if i[2] > circles[0, max_index, 2]:  # find largest one
                 max_index = ii
-        return circles[0, max_index, 1]  # x, y, radius
+        return circles[0, max_index]  # x, y, radius
 
 
 if __name__ == '__main__':
