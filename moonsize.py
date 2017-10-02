@@ -26,6 +26,11 @@ class MoonSize():
 			print "Moon No. " + str(i) + " (path " + str(self.img_paths[i]) + ")"
 			print "Radius: " + str(self.radii[i])
 
+	def show_circle(self, index):
+		finder = CircleFinder(self.img_paths[index])
+		finder.get_center_coords()
+		finder.show_circle()
+
 	@classmethod
 	def pix_to_ang(cls, pixels):
 		return pixels
@@ -41,3 +46,4 @@ if __name__ == "__main__":
 
 	mnsize = MoonSize(paths)
 	mnsize.run()
+	mnsize.show_circle(0)
