@@ -28,6 +28,8 @@ class StarDistance():
         plt.show()
         moonloc1 = CircleFinder(self.img1).get_center_coords()
         moonloc2 = CircleFinder(dst).get_center_coords()
+        print "moonloc1 " + str(moonloc1)
+        print "moonloc2 " + str(moonloc2)
         return (moonloc1[0] - moonloc2[0], moonloc1[1] - moonloc2[1])
 
 

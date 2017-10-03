@@ -11,6 +11,7 @@ class CircleFinder():
         else:
             self.image_path = None
             self.img = path
+            self.found_circle = None
 
     def get_center_coords(self):
         if self.image_path is None:
@@ -20,8 +21,8 @@ class CircleFinder():
         img = cv2.medianBlur(img, 5)
         self.img = img
         circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
-                                   param1=60, param2=30, minRadius=5,
-                                   maxRadius=300)
+                                   param1=200, param2=50, minRadius=5,
+                                   maxRadius=700)
         if circles is None:
             return None
         circles = np.uint16(np.around(circles))
@@ -34,7 +35,7 @@ class CircleFinder():
 
     def show_circle(self):
         cv2.circle(self.img, (self.found_circle[0], self.found_circle[1]), self.found_circle[2], (255, 0, 0), 5)
-        
+
         scale = 0.2
         self.img = cv2.resize(self.img, (0, 0), fx=scale, fy=scale)
         

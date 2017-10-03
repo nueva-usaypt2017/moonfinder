@@ -11,6 +11,7 @@ class MoonSize():
 	def __init__(self, img_paths):
 		self.img_paths = img_paths
 		self.n = len(self.img_paths)
+		print "self.n: " + str(self.n)
 		self.radii = []
 
 	def run(self):
